@@ -31,7 +31,7 @@ export function modelImports(imports: Import[], fields: Field[], custom_types: s
     }
   });
 
-  lines.push(`import { ${ langs.join(', ') } } from 'src/app/i18n/${ slasherize(name) }.i18n';`);
+  lines.push(`import { ${ langs.join(', ') } } from 'src/app/i18n/${ slasherize(name) }/${ dasherize(name) }.i18n';`);
 
   return lines.join('\n');
 }
