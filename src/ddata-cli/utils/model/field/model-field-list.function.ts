@@ -5,6 +5,12 @@ export function modelFieldList(fields: Field[]) {
   const lines: string[] = [];
 
   fields.forEach((field) => {
+    if (field.name === 'id') {
+      lines.push(`  id: ID;`);
+
+      return;
+    }
+
     if (field.model_name === '') {
       lines.push(`  ${ underscore(field.name) }: ${ field.type === 'text' ? 'string' : field.type };`);
     } else {
