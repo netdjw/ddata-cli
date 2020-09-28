@@ -1,0 +1,62 @@
+<div class="container-fluid">
+  <!-- global functions -->
+  <div class="row py-2 function-row">
+    <div class="col-12">
+      <button class="btn btn-light" type="button" routerLink="{{ model.api_endpoint }}/create">
+        <fa-icon [icon]="icon.plus"></fa-icon>
+        {{ i18n.new }} {{ transformToLowerCase ? model.fields.title.label.toLowerCase() : model.fields.title.label }}
+      </button>
+    </div>
+  </div>
+
+  <!-- page title -->
+  <div class="row title-row">
+    <div class="col-12">
+      <h1>{{ i18n.all }} {{ transformToLowerCase ? model.fields.title.label.toLowerCase() : model.fields.title.label }}</h1>
+    </div>
+  </div>
+
+  <div *ngIf="paginate.data.length > 0">
+    <!-- header -->
+    <div class="row header-row"><%
+        fields.filter(field => field.is_array === false).forEach((field) => {
+            if (field.name === 'id') {
+                return;
+            }
+      %>
+      <div class="col-12 col-md-4 bg-light p-3 header-col">{{ model.fields.<%= field.name %>.label }}</div><%
+        })
+      %>
+      <div class="d-none d-md-block col-md-2 bg-light p-3 header-col"></div> <!-- buttons placeholder -->
+    </div>
+
+    <!-- list -->
+    <div class="row border-bottom data-row" *ngFor="let model of paginate.data">
+      <%= listHtmlFields %>
+
+      <!-- buttons -->
+      <div class="col-12 col-md-2 text-right py-2 button-container">
+        <div class="button-group">
+          <!-- edit -->
+          <button class="btn btn-light" type="button" routerLink="{{ model.api_endpoint }}/edit/{{ model.id }}" title="{{ i18n.edit }}">
+            <fa-icon [icon]="icon.pencil"></fa-icon>
+          </button>
+
+          <!-- delete -->
+          <app-confirm-dialog
+            title="{{ i18n.delete_are_you_sure_question }}"
+            [content]="i18n.delete_are_you_sure_description_before_model_name + model.name + i18n.delete_are_you_sure_description_after_model_name"
+            type="delete" (confirm)="delete(model)"></app-confirm-dialog>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- paginator component -->
+    <app-paginate [paginate]="paginateSubject" (changePage)="changePage($event)"></app-paginate>
+  </div>
+
+  <!-- no-data component -->
+  <app-no-data *ngIf="paginate.data.length === 0" [text]="model.fields.title.label.toLowerCase()"></app-no-data>
+
+</div>

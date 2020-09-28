@@ -1,0 +1,29 @@
+{
+  "$schema": "../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "dd-cli/all": {
+      "description": "Add model, interface, create-edit component, list component, lang file.",
+      "factory": "./ddata-cli/index#addAll",
+      "schema": "./ddata-cli/schema.json",
+      "aliases": ["dd-all"]
+    },
+    "dd-cli/model": {
+      "description": "Add model, interface.",
+      "factory": "./ddata-cli/index#addModel",
+      "schema": "./ddata-cli/schema.json",
+      "aliases": ["dd-model"]
+    },
+    "dd-cli/lang": {
+      "description": "Add lang file.",
+      "factory": "./ddata-cli/index#addLang",
+      "schema": "./ddata-cli/schema.json",
+      "aliases": ["dd-lang"]
+    },
+    "dd-cli/components": {
+      "description": "Add components component.",
+      "factory": "./ddata-cli/index#addComponents",
+      "schema": "./ddata-cli/schema.json",
+      "aliases": ["dd-components"]
+    }
+  }
+}

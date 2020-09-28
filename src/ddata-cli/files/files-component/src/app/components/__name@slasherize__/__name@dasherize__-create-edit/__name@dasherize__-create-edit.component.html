@@ -1,0 +1,19 @@
+<div class="container-fluid">
+  <div class="row header-row">
+    <div class="col-12">
+      <h1>{{ i18n.model_name }} {{ !!model.id ? i18n.create : i18n.edit }}</h1>
+    </div>
+  </div>
+
+  <div class="row data-row">
+<%= createEditHtmlFields %>
+  </div>
+
+  <div class="row button-row">
+    <div class="col-12">
+      <button type="button" class="btn btn-primary" (click)="save()">{{ i18n.save }}</button>
+      <button type="button" class="btn btn-secondary" (click)="stepBack()">{{ i18n.cancel }}</button>
+    </div>
+  </div>
+
+</div>
