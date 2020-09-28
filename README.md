@@ -4,7 +4,63 @@ This the command line interface for `ddata-core` and `ddata-ui-input`, `ddata-ui
 
 ## Install
 
-`npm install ddata-cli --save-dev`
+`npm install --save-dev ddata-cli`
+
+If you did'nt installed yet, you need to install `ddata-core`, `ddata-ui-input` and `ddata-ui-dialog` packages:
+
+`npm install --save ddata-core ddata-ui-input ddata-ui-dialog`
+
+And don't forget add this modules to your `app.module.ts` file.
+
+```typescript
+import { DdataCoreModule } from 'ddata-core';
+import { DdataUiInputModule } from 'ddata-ui-input';
+
+@NgModule({
+  // ...
+  imports: [
+    // ...
+    DdataCoreModule,
+    DdataUiInputModule,
+  ],
+  // ...
+})
+export class AppModule { }
+```
+
+Follow these packages installation instructions.
+
+
+### Set up your environment
+
+You need to extend your `tsconfig.app.json` file with this settings:
+
+```json
+{
+  // ...
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts"
+  ]
+}
+```
+
+Extend your `tslint.json` to allow snake case naming convention:
+
+```json
+{
+  "rules": {
+    "variable-name": {
+      "options": [
+        "ban-keywords",
+        "check-format",
+        "allow-pascal-case",
+        "allow-snake-case"
+      ]
+    },
+  }
+}
+```
 
 ## How to use?
 
