@@ -1,27 +1,27 @@
 {
-    "$schema": "http://json-schema.org/schema",
-    "id": "ddata-cli",
-    "title": "Ddata CLI schematics",
-    "type": "object",
-    "properties": {
-        "name": {
-            "description": "Model name, without it's path",
-            "type": "string",
-            "$default": {
-                "$source": "argv",
-                "index": 0
-            }
-        },
-        "fields": {
-            "description": "Field list, with comma separated this syntax: name:type?:default_value?",
-            "type": "string",
-            "$default": {
-                "$source": "argv",
-                "index": 0
-            }
-        }
+  "$schema": "http://json-schema.org/schema",
+  "id": "ddata-cli",
+  "title": "Ddata CLI schematics",
+  "type": "object",
+  "properties": {
+    "name": {
+      "description": "Model name, without it's path",
+      "type": "string",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      }
     },
-    "required": [
-        "name"
-    ]
+    "fields": {
+      "description": "Field list, with comma separated this syntax: name:type?:default_value?",
+      "type": "string",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      }
+    }
+  },
+  "required": [
+    "name"
+  ]
 }
