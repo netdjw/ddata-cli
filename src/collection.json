@@ -5,25 +5,25 @@
       "description": "Add model, interface, create-edit component, list component, lang file.",
       "factory": "./ddata-cli/index#addAll",
       "schema": "./ddata-cli/schema.json",
-      "aliases": ["dd-all"]
+      "aliases": ["all"]
     },
     "dd-cli/model": {
       "description": "Add model, interface.",
       "factory": "./ddata-cli/index#addModel",
       "schema": "./ddata-cli/schema.json",
-      "aliases": ["dd-model"]
+      "aliases": ["model"]
     },
     "dd-cli/lang": {
       "description": "Add lang file.",
       "factory": "./ddata-cli/index#addLang",
       "schema": "./ddata-cli/schema.json",
-      "aliases": ["dd-lang"]
+      "aliases": ["lang"]
     },
     "dd-cli/components": {
       "description": "Add components component.",
       "factory": "./ddata-cli/index#addComponents",
       "schema": "./ddata-cli/schema.json",
-      "aliases": ["dd-components"]
+      "aliases": ["components"]
     }
   }
 }
