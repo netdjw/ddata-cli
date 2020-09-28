@@ -22,17 +22,15 @@ export function modelInitStatements(fields: Field[]) {
     }
   });
 
-  lines.push(``);
-
   fields.filter((field: Field) => field.is_array === true).forEach((field: Field) => {
     lines.push(
+      ``,
       `    // ${ underscore(field.name) }`,
       `    if (!!data.${ underscore(field.name) } && data.${ underscore(field.name) } instanceof Array) {`,
       `      data.${ underscore(field.name) }.forEach((element: any) => {`,
       `        this.${ underscore(field.name) }.push( new ${ field.model_name }().init(element) );`,
       `      });`,
       `    }`,
-      ``,
     );
   });
 
