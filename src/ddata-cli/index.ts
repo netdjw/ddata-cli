@@ -1,6 +1,7 @@
-import { experimental, strings } from '@angular-devkit/core';
+import { experimental, normalize, strings } from '@angular-devkit/core';
 import { classify, dasherize } from '@angular-devkit/core/src/utils/strings';
 import { apply, Rule, SchematicContext, Tree, template, mergeWith, url, chain, SchematicsException } from '@angular-devkit/schematics';
+import { findModuleFromOptions } from '@schematics/angular/utility/find-module';
 import { Field } from './field';
 import { Import } from './import';
 import { Schema } from './schema';
@@ -20,6 +21,7 @@ import { modelFieldList } from './utils/model/field/model-field-list.function';
 import { modelInitStatements } from './utils/model/init/model-init-statements.function';
 import { modelPrepareToSaveStatements } from './utils/model/prepareToSave/model-prepatetosave-statements.function';
 import { modelUiFields } from './utils/model/field/model-ui-fields.function';
+import { addDeclarationToNgModule } from './utils/add-to-module/ng-module-utils';
 
 export function addAll(_options: Schema): Rule {
   return (tree: Tree, _context: SchematicContext) => {
@@ -27,6 +29,12 @@ export function addAll(_options: Schema): Rule {
     const imports: Import[] = collectImports(fields);
     const arrays: string[] = collectArrays(fields);
     const custom_types: string = customTypesList(fields);
+
+    // module path
+    _options.path = _options.path ? normalize(_options.path) : _options.path;
+
+    // Infer module path, if not passed:
+    _options.module = _options.module || findModuleFromOptions(tree, _options) || '';
 
     const workspaceConfig = tree.read('/angular.json');
     if (!workspaceConfig) {
@@ -48,6 +56,7 @@ export function addAll(_options: Schema): Rule {
       addModel(_options, fields, imports, custom_types),
       addLang(_options, fields),
       addComponents(_options, fields, arrays, styleExt),
+      addDeclarationToNgModule(_options, _options.export ?? false)
     ])(tree, _context);
   };
 }
