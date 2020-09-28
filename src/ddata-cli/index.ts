@@ -1,6 +1,6 @@
-import { strings } from '@angular-devkit/core';
+import { experimental, strings } from '@angular-devkit/core';
 import { classify, dasherize } from '@angular-devkit/core/src/utils/strings';
-import { apply, Rule, SchematicContext, Tree, template, mergeWith, url, chain } from '@angular-devkit/schematics';
+import { apply, Rule, SchematicContext, Tree, template, mergeWith, url, chain, SchematicsException } from '@angular-devkit/schematics';
 import { Field } from './field';
 import { Import } from './import';
 import { Schema } from './schema';
@@ -27,13 +27,27 @@ export function addAll(_options: Schema): Rule {
     const imports: Import[] = collectImports(fields);
     const arrays: string[] = collectArrays(fields);
     const custom_types: string = customTypesList(fields);
+
+    const workspaceConfig = tree.read('/angular.json');
+    if (!workspaceConfig) {
+      throw new SchematicsException('Could not find Angular workspace configuration');
+    }
+
+    // convert workspace to string
+    const workspaceContent = workspaceConfig.toString();
+
+    // parse workspace string into JSON object
+    const workspace: experimental.workspace.WorkspaceSchema = JSON.parse(workspaceContent);
+
+    const schematics: any = workspace.projects.angular.schematics;
+    const styleExt: string = schematics['@schematics/angular:component']['style'];
     // console.log(fields);
     // console.log(arrays);
 
     return chain([
       addModel(_options, fields, imports, custom_types),
       addLang(_options, fields),
-      addComponents(_options, fields, arrays),
+      addComponents(_options, fields, arrays, styleExt),
     ])(tree, _context);
   };
 }
@@ -109,13 +123,13 @@ function addLangTree(_options: Schema, _fields?: Field[]) {
   return sourceParamterizedTempleates;
 }
 
-export function addComponents(_options: Schema, _fields?: Field[], _arrays?: string[]): Rule {
+export function addComponents(_options: Schema, _fields?: Field[], _arrays?: string[], styleExt?: string): Rule {
   return (tree: Tree, _context: SchematicContext) => {
-    return mergeWith(addComponentsTree(_options, _fields, _arrays))(tree, _context);
+    return mergeWith(addComponentsTree(_options, _fields, _arrays, styleExt))(tree, _context);
   };
 }
 
-export function addComponentsTree(_options: Schema, _fields?: Field[], _arrays?: string[]) {
+export function addComponentsTree(_options: Schema, _fields?: Field[], _arrays?: string[], styleExt?: string) {
   const fields: Field[] = [];
   if (!!_fields) {
     fields.push(..._fields);
@@ -138,6 +152,7 @@ export function addComponentsTree(_options: Schema, _fields?: Field[], _arrays?:
       arrays,
       slasherize,
       fields,
+      styleExt,
       createEditHtmlFields: createEditHtmlFields(fields),
       createEditImports: createEditImports(_options.name, fields, arrays),
       createEditFieldDefinition: createEditFieldDefinition(fields, arrays),
