@@ -16,8 +16,14 @@
       "description": "Field list, with comma separated this syntax: name:type?:default_value?",
       "type": "string",
       "$default": {
-        "$source": "argv",
-        "index": 0
+        "$source": "argv"
+      }
+    },
+    "module": {
+      "description": "Module name",
+      "type": "string",
+      "$default": {
+        "$source": "argv"
       }
     }
   },
