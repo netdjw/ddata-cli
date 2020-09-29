@@ -1,6 +1,6 @@
 {
   "name": "ddata-cli",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "ddata package cli tool for schematics",
   "scripts": {
     "build": "tsc -p tsconfig.json",
